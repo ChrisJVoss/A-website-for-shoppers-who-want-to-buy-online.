@@ -7,22 +7,22 @@ var items = [
 
 var $row = document.querySelector('div.row')
 
-function currentItem(itemList) {
+function displayItem(itemList) {
   for (var i = 0; i < itemList.length; i++) {
     var currentProduct = itemList[i]
-    var $product = displayItem(currentProduct)
+    var $product = renderItem(currentProduct)
     $row.appendChild($product)
   }
 }
 
-function displayItem(product) {
+function renderItem(product) {
   var $newItem = document.createElement('div')
   var $itemImg = document.createElement('img')
   var $itemName = document.createElement('span')
   var $itemPrice = document.createElement('span')
   var $lineBreak = document.createElement('hr')
 
-  $newItem.classList.add('itemContainer')
+  $newItem.classList.add('item-container')
   $newItem.classList.add('col-md-10')
   $itemImg.classList.add('item-img')
   $itemImg.setAttribute('src', product.img)
@@ -41,3 +41,4 @@ function displayItem(product) {
 
   return $newItem
 }
+displayItem(items)
