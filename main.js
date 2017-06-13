@@ -5,7 +5,7 @@ var items = [
   {name: 'Sennheiser HD 700', price: 598, img: 'https://images-na.ssl-images-amazon.com/images/I/41XoulU95pL.jpg'}
 ]
 
-var $row = document.querySelector('div.row')
+var $row = document.querySelector('#item-holder')
 
 function displayItems(itemList) {
   for (var i = 0; i < itemList.length; i++) {
