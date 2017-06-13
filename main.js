@@ -7,7 +7,7 @@ var items = [
 
 var $row = document.querySelector('div.row')
 
-function displayItem(itemList) {
+function displayItems(itemList) {
   for (var i = 0; i < itemList.length; i++) {
     var currentProduct = itemList[i]
     var $product = renderItem(currentProduct)
@@ -41,4 +41,4 @@ function renderItem(product) {
 
   return $newItem
 }
-displayItem(items)
+displayItems(items)
