@@ -54,14 +54,20 @@ function renderItem(product) {
 displayItems(items)
 
 // Issue-2
+var $itemContainer = document.querySelectorAll('div.item-container')
 function selectedItem(target) {
-  var $itemContainer = document.querySelectorAll('div.item-container')
+  //var $itemContainer = document.querySelectorAll('div.item-container')
+  var selectedItem = 0
   for (var i = 0; i < $itemContainer.length; i++) {
     console.log($itemContainer[i].dataset.product)
     if ($itemContainer[i].dataset.product !== target) {
       $itemContainer[i].style.visibility = 'hidden'
     }
+    else {
+      selectedItem = i
+    }
   }
+  $itemContainer[selectedItem].classList.add('selected-item')
 }
 
 var targetData = 0
