@@ -24,18 +24,22 @@ function renderItem(product) {
 
   $newItem.classList.add('item-container')
   $newItem.classList.add('col-md-10')
+  $newItem.setAttribute('data-product', product.id)
   $newItem.id = product.id
 
   $itemImg.classList.add('item-img')
   $itemImg.setAttribute('src', product.img)
+  $itemImg.setAttribute('data-product', product.id)
   $itemImg.classList.add('col-md-4')
 
   $itemName.classList.add('item-name')
   $itemName.classList.add('col-md-4')
+  $itemName.setAttribute('data-product', product.id)
   $itemName.textContent = product.name
 
   $itemPrice.classList.add('item-stats')
   $itemPrice.classList.add('col-md-4')
+  $itemPrice.setAttribute('data-product', product.id)
   $itemPrice.textContent = '$' + product.price.toFixed(2)
 
   $lineBreak.classList.add('col-md-12')
@@ -50,14 +54,7 @@ function renderItem(product) {
 displayItems(items)
 
 // Issue-2
-var $itemContainer = document.querySelectorAll('div.item-container')
-for (var i = 0; i < $itemContainer.length; i++) {
-  $itemContainer[i].addEventListener('click', function(event) {
-    var target = event.target
-    console.log(target.id)
-    if (target.id === '') {
-      var parent = target.parentElement
-      console.log(parent)
-    }
-  })
-}
+document.addEventListener('click', function(event) {
+  console.log(event.target)
+
+})
