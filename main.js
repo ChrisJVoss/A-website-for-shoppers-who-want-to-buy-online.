@@ -54,7 +54,20 @@ function renderItem(product) {
 displayItems(items)
 
 // Issue-2
-document.addEventListener('click', function(event) {
-  console.log(event.target)
+function selectedItem(target) {
+  var $itemContainer = document.querySelectorAll('div.item-container')
+  for (var i = 0; i < $itemContainer.length; i++) {
+    console.log($itemContainer[i].dataset.product)
+    if ($itemContainer[i].dataset.product !== target) {
+      $itemContainer[i].style.visibility = 'hidden'
+    }
+  }
+}
 
+var targetData = 0
+
+document.addEventListener('click', function(event) {
+  var targetData = event.target.dataset.product
+  console.log(targetData)
+  selectedItem(targetData)
 })
