@@ -54,35 +54,31 @@ function renderItem(product) {
 displayItems(items)
 
 // Issue-2
-var targetData = 0
 
 document.addEventListener('click', function(event) {
   var targetData = event.target.dataset.product
+  //var targetButton = event.target.dataset
   console.log(targetData)
   selectedItem(targetData)
+  //returnButton(targetButton)
 })
 
-var $itemContainer = document.querySelectorAll('div.item-container')
-var clickedItem = 0
-
 function selectedItem(target) {
+  var $itemContainer = document.querySelectorAll('div.item-container')
   for (var i = 0; i < $itemContainer.length; i++) {
-    console.log($itemContainer[i].dataset.product)
     if ($itemContainer[i].dataset.product !== target) {
       $itemContainer[i].style.visibility = 'hidden'
     }
-    else {
-      clickedItem = target
-    }
   }
-  $itemContainer[clickedItem].classList.add('selected-item')
+  $itemContainer[target].classList.add('selected-item')
   scroll(0,0)
-  itemDescription()
-  createReturnButton()
+  itemDescription(items, target)
+  createReturnButton(target)
 }
 
-function itemDescription() {
-  var splitDescription = items[targetData].description.split('.')
+function itemDescription(list, target) {
+  var $itemContainer = document.querySelectorAll('div.item-container')
+  var splitDescription = list[target].description.split('.')
   var $descriptionList = document.createElement('ul')
   $descriptionList.classList.add('col-md-8')
   $descriptionList.classList.add('item-description')
@@ -91,14 +87,27 @@ function itemDescription() {
     $description.textContent = splitDescription[i]
     $descriptionList.appendChild($description)
   }
-  $itemContainer[clickedItem].appendChild($descriptionList)
+  $itemContainer[target].appendChild($descriptionList)
 }
 
-function createReturnButton() {
+function createReturnButton(target) {
+  var $itemContainer = document.querySelectorAll('div.item-container')
   var $backButton = document.createElement('button')
   $backButton.setAttribute('type', 'button')
+  $backButton.setAttribute('data-button', 'return')
   $backButton.classList.add('btn')
   $backButton.classList.add('btn-elegant')
   $backButton.textContent = 'Return'
-  $itemContainer[clickedItem].appendChild($backButton)
+  $itemContainer[target].appendChild($backButton)
 }
+
+/*function returnButton(target) {
+  if ()
+    for (var i = 0; i < $itemContainer.length; i++) {
+      $itemContainer[i].style.visibility = 'visible'
+      $itemContainer[i].classList.remove('selected-item')
+    }
+    var $descriptionList = document.querySelector('ul')//.item-description')
+    $descriptionList.style.visibility = 'hidden'
+}
+*/
