@@ -8,8 +8,6 @@ var items = [
   {id: 3, name: 'Sennheiser HD 700', price: 598, img: 'https://images-na.ssl-images-amazon.com/images/I/41XoulU95pL.jpg', description: 'Open, circumaural dynamic stereo headphones for maximum wearing comfort. Outstanding soundstage with a warm and balanced audio reproduction. Specially-tuned, highly efficient drivers capable of delivering high sound pressure levels and a flat frequency response. Highly optimized ventilated magnet system minimizes air turbulence and harmonic, intermodulation distortion. Open-back ear cups facilitate transparent sound while showcasing cutting-edge industrial design'}
 ]
 
-var $details = document.getElementById('item-details')
-
 function renderItem(product) {
   var $newItem = document.createElement('div')
   var $itemImg = document.createElement('img')
@@ -68,27 +66,14 @@ displayItems(items)
 // Issue-2
 
 function selectedItem(itemList, target, container, row) {
+  var $details = document.getElementById('item-details')
+  $details.innerHTML=''
   $details.appendChild(container[target])
-  row.style.visibility = 'hidden'
   row.classList.add('hidden')
-  $details.style.visibility = 'visibile'
+  $details.classList.remove('hidden')
   itemDescription(itemList, target, container)
+  createReturnButton(target, container, row, $details)
 }
-
-/*
-function selectedItem(target, container) {
-  for (var i = 0; i < container.length; i++) {
-    if (container[i].dataset.product !== target) {
-      container[i].style.visibility = 'hidden'
-    }
-  }
-  container[target].classList.add('selected-item')
-  scroll(0,0)
-  itemDescription(items, target, container)
-  createReturnButton(target, container)
-  $holder.removeEventListener('click', event)
-}
-*/
 
 function itemDescription(itemList, target, container) {
   var splitDescription = itemList[target].description.split('. ')
@@ -102,8 +87,8 @@ function itemDescription(itemList, target, container) {
   }
   container[target].appendChild($descriptionList)
 }
-/*
-function createReturnButton(target, container) {
+
+function createReturnButton(target, container, row, details) {
   var $backButton = document.createElement('button')
   $backButton.setAttribute('type', 'button')
   $backButton.setAttribute('data-button', 'return')
@@ -113,16 +98,22 @@ function createReturnButton(target, container) {
   container[target].appendChild($backButton)
   $backButton.addEventListener('click', function(event){
     var targetButton = event.target.dataset
-    returnButton(targetButton.return, container)
+    returnButton(targetButton.return, row, details)
   })
+
 }
 
-function returnButton(target, container) {
-  for (var i = 0; i < container.length; i++) {
-    container[i].style.visibility = 'visible'
-    container[i].classList.remove('selected-item')
-  }
-  var $descriptionList = document.querySelector('ul')//.item-description')
-  $descriptionList.style.visibility = 'hidden'
+function returnButton(target, row, details) {
+  console.log('here')
+  //ow.style.visibility = 'visibile'
+  console.log('here1')
+  row.classList.remove('hidden')
+  console.log('here2')
+  //details.style.visibility = 'hidden'
+  details.classList.add('hidden')
+
 }
-*/
+
+function view() {
+
+}
