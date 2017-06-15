@@ -17,3 +17,7 @@
 .item-description {
   float: left;
 }
+
+.hidden {
+  display: none;
+}

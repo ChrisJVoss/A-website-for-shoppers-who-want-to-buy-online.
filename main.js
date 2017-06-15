@@ -8,8 +8,7 @@ var items = [
   {id: 3, name: 'Sennheiser HD 700', price: 598, img: 'https://images-na.ssl-images-amazon.com/images/I/41XoulU95pL.jpg', description: 'Open, circumaural dynamic stereo headphones for maximum wearing comfort. Outstanding soundstage with a warm and balanced audio reproduction. Specially-tuned, highly efficient drivers capable of delivering high sound pressure levels and a flat frequency response. Highly optimized ventilated magnet system minimizes air turbulence and harmonic, intermodulation distortion. Open-back ear cups facilitate transparent sound while showcasing cutting-edge industrial design'}
 ]
 
-var $holder = document.querySelector('#item-holder')
-var $details = document.querySelector('#item-details')
+var $details = document.getElementById('item-details')
 
 function renderItem(product) {
   var $newItem = document.createElement('div')
@@ -49,6 +48,7 @@ function renderItem(product) {
 }
 
 function displayItems(itemList) {
+  var $holder = document.getElementById('item-holder')
   for (var i = 0; i < itemList.length; i++) {
     var currentProduct = itemList[i]
     var $product = renderItem(currentProduct)
@@ -56,11 +56,10 @@ function displayItems(itemList) {
   }
   var $itemContainer = document.querySelectorAll('div.item-container')
   $holder.addEventListener('click', function(event) {
-    var targetData = event.target.dataset
-    //var targetButton = event.target.dataset
-    console.log(targetData.product)
-    selectedItem(targetData.product, $itemContainer)
-    //returnButton(targetButton)
+    var targetData = event.target.dataset.product
+    console.log(targetData)
+    //selectedItem(targetData, $itemContainer)
+    selectedItem(itemList, targetData, $itemContainer, $holder)
   })
 }
 
@@ -68,6 +67,15 @@ displayItems(items)
 
 // Issue-2
 
+function selectedItem(itemList, target, container, row) {
+  $details.appendChild(container[target])
+  row.style.visibility = 'hidden'
+  row.classList.add('hidden')
+  $details.style.visibility = 'visibile'
+  itemDescription(itemList, target, container)
+}
+
+/*
 function selectedItem(target, container) {
   for (var i = 0; i < container.length; i++) {
     if (container[i].dataset.product !== target) {
@@ -80,9 +88,10 @@ function selectedItem(target, container) {
   createReturnButton(target, container)
   $holder.removeEventListener('click', event)
 }
+*/
 
-function itemDescription(list, target, container) {
-  var splitDescription = list[target].description.split('. ')
+function itemDescription(itemList, target, container) {
+  var splitDescription = itemList[target].description.split('. ')
   var $descriptionList = document.createElement('ul')
   $descriptionList.classList.add('col-md-8')
   $descriptionList.classList.add('item-description')
@@ -93,7 +102,7 @@ function itemDescription(list, target, container) {
   }
   container[target].appendChild($descriptionList)
 }
-
+/*
 function createReturnButton(target, container) {
   var $backButton = document.createElement('button')
   $backButton.setAttribute('type', 'button')
@@ -116,3 +125,4 @@ function returnButton(target, container) {
   var $descriptionList = document.querySelector('ul')//.item-description')
   $descriptionList.style.visibility = 'hidden'
 }
+*/
