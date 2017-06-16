@@ -6,3 +6,18 @@
 .container {
   padding-top: 20px;
 }
+
+.selected-item {
+  position: absolute;
+  padding-top: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.item-description {
+  float: left;
+}
+
+.hidden {
+  display: none;
+}
