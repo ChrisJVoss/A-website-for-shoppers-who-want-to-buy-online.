@@ -8,6 +8,8 @@ var items = [
   {id: 3, name: 'Sennheiser HD 700', price: 598, img: 'https://images-na.ssl-images-amazon.com/images/I/41XoulU95pL.jpg', description: 'Open, circumaural dynamic stereo headphones for maximum wearing comfort. Outstanding soundstage with a warm and balanced audio reproduction. Specially-tuned, highly efficient drivers capable of delivering high sound pressure levels and a flat frequency response. Highly optimized ventilated magnet system minimizes air turbulence and harmonic, intermodulation distortion. Open-back ear cups facilitate transparent sound while showcasing cutting-edge industrial design'}
 ]
 
+var views = ['products', 'details']
+
 function renderItem(product) {
   var $newItem = document.createElement('div')
   var $itemImg = document.createElement('img')
@@ -15,7 +17,7 @@ function renderItem(product) {
   var $itemPrice = document.createElement('span')
   var $lineBreak = document.createElement('hr')
 
-  $newItem.classList.add('item-container')
+  $newItem.classList.add('item-itemContainer')
   $newItem.classList.add('col-md-10')
   $newItem.setAttribute('data-product', product.id)
   $newItem.id = product.id
@@ -46,40 +48,35 @@ function renderItem(product) {
 }
 
 function displayItems(itemList) {
-  var $holder = document.getElementById('item-holder')
+  var $products = document.getElementById('products')
   for (var i = 0; i < itemList.length; i++) {
     var currentProduct = itemList[i]
     var $product = renderItem(currentProduct)
-    $holder.appendChild($product)
+    $products.appendChild($product)
   }
-  var $itemContainer = document.querySelectorAll('div.item-container')
-  $holder.addEventListener('click', function(event) {
-    var targetData = event.target.dataset.product
-    console.log(typeof targetData + 'w')
-    console.log(targetData + 'x')
-    selectedItem(itemList, targetData, $itemContainer, $holder)
+  var $items = document.querySelectorAll('div.item-itemContainer')
+  $products.addEventListener('click', function(event) {
+    var productId = event.target.dataset.product
+    displayItemDetails(itemList, productId, $items, $products)
   })
 }
 
 displayItems(items)
 
-// Issue-2
-
-function selectedItem(itemList, target, container, row) {
-  var view = 'selected item page'
-  var $details = document.getElementById('item-details')
+function displayItemDetails(itemList, productId, itemContainer, row) {
+  var product = renderItem(items[productId])
+  var $details = document.getElementById('details')
   $details.innerHTML=''
-  console.log(container[target].id)
-  var chosenItemId = container[target].id
-  var product = renderItem(items[chosenItemId])
   $details.appendChild(product)
-  views(view, row, $details)
-  itemDescription(itemList, target, product)
-  createReturnButton(product, row, $details)
+  var $id = document.getElementById('details').id
+  var id = getView(views, $id)
+  swapToView(views[id], views)
+  itemDescription(itemList, productId, product)
+  createReturnButton(product)
 }
 
-function itemDescription(itemList, target, product) {
-  var splitDescription = itemList[target].description.split('. ')
+function itemDescription(itemList, productId, product) {
+  var splitDescription = itemList[productId].description.split('. ')
   var $descriptionList = document.createElement('ul')
   $descriptionList.classList.add('col-md-8')
   $descriptionList.classList.add('item-description')
@@ -91,7 +88,7 @@ function itemDescription(itemList, target, product) {
   product.appendChild($descriptionList)
 }
 
-function createReturnButton(product, row, details) {
+function createReturnButton(product) {
   var $backButton = document.createElement('button')
   $backButton.setAttribute('type', 'button')
   $backButton.setAttribute('data-button', 'return')
@@ -100,18 +97,29 @@ function createReturnButton(product, row, details) {
   $backButton.textContent = 'Return'
   product.appendChild($backButton)
   $backButton.addEventListener('click', function(event){
-    var view = 'main page'
-    views(view, row, details)
+    var $id = document.getElementById('products').id
+    var id = getView(views, $id)
+    swapToView(views[id], views)
   })
 }
 
-function views(swapToView, row, details) {
-  if (swapToView === 'selected item page'){
-    row.classList.add('hidden')
-    details.classList.remove('hidden')
+function swapToView(view, views) {
+  for (var i = 0; i < views.length; i++) {
+    if (views[i] === view) {
+        var $view = document.getElementById(views[i])
+        $view.classList.remove('hidden')
+    }
+    else {
+      var $view = document.getElementById(views[i])
+      $view.classList.add('hidden')
+    }
   }
-  else if (swapToView === 'main page') {
-    row.classList.remove('hidden')
-    details.classList.add('hidden')
+}
+
+function getView(views, id) {
+  for (var i = 0; i < views.length; i++) {
+    if (views[i] === id) {
+      return i
+    }
   }
 }
