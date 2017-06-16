@@ -55,8 +55,8 @@ function displayItems(itemList) {
   var $itemContainer = document.querySelectorAll('div.item-container')
   $holder.addEventListener('click', function(event) {
     var targetData = event.target.dataset.product
-    console.log(targetData)
-    //selectedItem(targetData, $itemContainer)
+    console.log(typeof targetData + 'w')
+    console.log(targetData + 'x')
     selectedItem(itemList, targetData, $itemContainer, $holder)
   })
 }
@@ -66,16 +66,19 @@ displayItems(items)
 // Issue-2
 
 function selectedItem(itemList, target, container, row) {
+  var view = 'selected item'
   var $details = document.getElementById('item-details')
   $details.innerHTML=''
-  $details.appendChild(container[target])
-  row.classList.add('hidden')
-  $details.classList.remove('hidden')
-  itemDescription(itemList, target, container)
-  createReturnButton(target, container, row, $details)
+  console.log(container[target].id)
+  var chosenItemId = container[target].id
+  var product = renderItem(items[chosenItemId])
+  $details.appendChild(product)
+  views(view, row, $details)
+  itemDescription(itemList, target, product)
+  createReturnButton(product, row, $details)
 }
 
-function itemDescription(itemList, target, container) {
+function itemDescription(itemList, target, product) {
   var splitDescription = itemList[target].description.split('. ')
   var $descriptionList = document.createElement('ul')
   $descriptionList.classList.add('col-md-8')
@@ -85,35 +88,30 @@ function itemDescription(itemList, target, container) {
     $description.textContent = splitDescription[i]
     $descriptionList.appendChild($description)
   }
-  container[target].appendChild($descriptionList)
+  product.appendChild($descriptionList)
 }
 
-function createReturnButton(target, container, row, details) {
+function createReturnButton(product, row, details) {
   var $backButton = document.createElement('button')
   $backButton.setAttribute('type', 'button')
   $backButton.setAttribute('data-button', 'return')
   $backButton.classList.add('btn')
   $backButton.classList.add('btn-elegant')
   $backButton.textContent = 'Return'
-  container[target].appendChild($backButton)
+  product.appendChild($backButton)
   $backButton.addEventListener('click', function(event){
-    var targetButton = event.target.dataset
-    returnButton(targetButton.return, row, details)
+    var view = 'main page'
+    views(view, row, details)
   })
-
 }
 
-function returnButton(target, row, details) {
-  console.log('here')
-  //ow.style.visibility = 'visibile'
-  console.log('here1')
-  row.classList.remove('hidden')
-  console.log('here2')
-  //details.style.visibility = 'hidden'
-  details.classList.add('hidden')
-
-}
-
-function view() {
-
+function views(swapToView, row, details) {
+  if (swapToView === 'selected item'){
+    row.classList.add('hidden')
+    details.classList.remove('hidden')
+  }
+  else if (swapToView === 'main page') {
+    row.classList.remove('hidden')
+    details.classList.add('hidden')
+  }
 }
