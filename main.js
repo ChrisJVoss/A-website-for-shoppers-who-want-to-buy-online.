@@ -66,7 +66,7 @@ displayItems(items)
 // Issue-2
 
 function selectedItem(itemList, target, container, row) {
-  var view = 'selected item'
+  var view = 'selected item page'
   var $details = document.getElementById('item-details')
   $details.innerHTML=''
   console.log(container[target].id)
@@ -106,7 +106,7 @@ function createReturnButton(product, row, details) {
 }
 
 function views(swapToView, row, details) {
-  if (swapToView === 'selected item'){
+  if (swapToView === 'selected item page'){
     row.classList.add('hidden')
     details.classList.remove('hidden')
   }
