@@ -11,6 +11,8 @@ var items = [
 
 var views = ['products', 'details', 'cart']
 
+var shoppingCart = []
+
 function renderItem(product) {
   var $newItem = document.createElement('div')
   var $itemImg = document.createElement('img')
@@ -126,8 +128,6 @@ function getView(views, id) {
   }
 }
 
-// Issue 3
-
 function addToCartButton(product) {
   var addToCartButton = document.createElement('button')
   addToCartButton.setAttribute('type', 'button')
@@ -137,8 +137,10 @@ function addToCartButton(product) {
   addToCartButton.textContent = 'Add to Cart'
   product.appendChild(addToCartButton)
   addToCartButton.addEventListener('click', function(event){
-    var $id = document.getElementById('cart').id
-    var id = getView(views, $id)
-    swapToView(views[id], views)
+    addToCart(product, shoppingCart)
   })
+}
+
+function addToCart(product, cart){
+  cart.unshift(product.id);
 }
