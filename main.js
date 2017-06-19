@@ -31,12 +31,12 @@ function renderItem(product) {
   $itemImg.classList.add('col-md-4')
 
   $itemName.classList.add('item-name')
-  $itemName.classList.add('col-md-4')
+  $itemName.classList.add('col-md-5')
   $itemName.setAttribute('data-product', product.id)
   $itemName.textContent = product.name
 
   $itemPrice.classList.add('item-stats')
-  $itemPrice.classList.add('col-md-4')
+  $itemPrice.classList.add('col-md-3')
   $itemPrice.setAttribute('data-product', product.id)
   $itemPrice.textContent = '$' + product.price.toFixed(2)
 
@@ -75,7 +75,7 @@ function displayItemDetails(itemList, productId, itemContainer, row) {
   var id = getView(views, $id)
   swapToView(views[id], views)
   itemDescription(itemList, productId, product)
-  createReturnButton(product)
+  // createReturnButton(product)
   addToCartButton(product, itemList)
 }
 
@@ -90,14 +90,16 @@ function itemDescription(itemList, productId, product) {
     $descriptionList.appendChild($description)
   }
   product.appendChild($descriptionList)
+  createReturnButton($descriptionList)
 }
 
-function createReturnButton(product) {
+function createReturnButton(location) {
   var $backButton = document.createElement('button')
   $backButton.setAttribute('type', 'button')
+  $backButton.setAttribute('id', 'return-button')
   $backButton.classList.add('btn')
   $backButton.textContent = 'Return'
-  product.appendChild($backButton)
+  location.appendChild($backButton)
   $backButton.addEventListener('click', function(event){
     var $id = document.getElementById('products').id
     var id = getView(views, $id)
@@ -129,6 +131,7 @@ function getView(views, id) {
 function addToCartButton(product, itemList) {
   var addToCartButton = document.createElement('button')
   addToCartButton.setAttribute('type', 'button')
+  addToCartButton.setAttribute('id', 'add-to-cart')
   addToCartButton.classList.add('btn')
   addToCartButton.textContent = 'Add to Cart'
   product.appendChild(addToCartButton)
