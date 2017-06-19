@@ -144,7 +144,7 @@ function addToCartButton(product, itemList) {
 
 function addToCart(product, cart, itemList) {
   var cartId = product.id
-  cart.unshift(itemList[cartId]);
+  cart.push(itemList[cartId]);
 }
 
 function updateCartButton(cartSize) {
