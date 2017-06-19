@@ -35,7 +35,7 @@ function renderItem(product) {
   $itemName.setAttribute('data-product', product.id)
   $itemName.textContent = product.name
 
-  $itemPrice.classList.add('item-stats')
+  $itemPrice.classList.add('item-price')
   $itemPrice.classList.add('col-md-3')
   $itemPrice.setAttribute('data-product', product.id)
   $itemPrice.textContent = '$' + product.price.toFixed(2)
@@ -98,6 +98,7 @@ function createReturnButton(location) {
   $backButton.setAttribute('type', 'button')
   $backButton.setAttribute('id', 'return-button')
   $backButton.classList.add('btn')
+  $backButton.classList.add('btn-primary')
   $backButton.textContent = 'Return'
   location.appendChild($backButton)
   $backButton.addEventListener('click', function(event){
@@ -133,6 +134,7 @@ function addToCartButton(product, itemList) {
   addToCartButton.setAttribute('type', 'button')
   addToCartButton.setAttribute('id', 'add-to-cart')
   addToCartButton.classList.add('btn')
+  addToCartButton.classList.add('btn-danger')
   addToCartButton.textContent = 'Add to Cart'
   product.appendChild(addToCartButton)
   addToCartButton.addEventListener('click', function(event){
