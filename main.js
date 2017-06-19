@@ -96,7 +96,6 @@ function createReturnButton(product) {
   var $backButton = document.createElement('button')
   $backButton.setAttribute('type', 'button')
   $backButton.classList.add('btn')
-  $backButton.classList.add('btn-elegant')
   $backButton.textContent = 'Return'
   product.appendChild($backButton)
   $backButton.addEventListener('click', function(event){
@@ -131,7 +130,6 @@ function addToCartButton(product, itemList) {
   var addToCartButton = document.createElement('button')
   addToCartButton.setAttribute('type', 'button')
   addToCartButton.classList.add('btn')
-  addToCartButton.classList.add('btn-elegant')
   addToCartButton.textContent = 'Add to Cart'
   product.appendChild(addToCartButton)
   addToCartButton.addEventListener('click', function(event){
