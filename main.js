@@ -140,7 +140,7 @@ function addToCartButton(product, itemList) {
   product.appendChild(addToCartButton)
   addToCartButton.addEventListener('click', function(event){
     addToCart(product, shoppingCart, itemList)
-    updateCartButton(cartCount)
+    updateCartButton(shoppingCart)
   })
 }
 
@@ -149,13 +149,7 @@ function addToCart(product, cart, itemList) {
   cart.unshift(itemList[cartId]);
 }
 
-function updateCartButton(count) {
-  console.log(count)
-  count += 1
-  console.log('update ' + count)
-  var $count = document.getElementById('cart-icon').textContent
-  console.log(typeof $count)
-  console.log($count)
-  $count = 'Cart '  + count
-  console.log($count)
+function updateCartButton(cartSize) {
+  count = cartSize.length
+  document.getElementById('count').textContent = count
 }
