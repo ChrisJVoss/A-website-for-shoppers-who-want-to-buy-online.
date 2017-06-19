@@ -13,6 +13,8 @@ var views = ['products', 'details', 'cart']
 
 var shoppingCart = []
 
+var cartCount = 0
+
 function renderItem(product) {
   var $newItem = document.createElement('div')
   var $itemImg = document.createElement('img')
@@ -76,7 +78,7 @@ function displayItemDetails(itemList, productId, itemContainer, row) {
   swapToView(views[id], views)
   itemDescription(itemList, productId, product)
   createReturnButton(product)
-  addToCartButton(product)
+  addToCartButton(product, itemList)
 }
 
 function itemDescription(itemList, productId, product) {
@@ -128,7 +130,7 @@ function getView(views, id) {
   }
 }
 
-function addToCartButton(product) {
+function addToCartButton(product, itemList) {
   var addToCartButton = document.createElement('button')
   addToCartButton.setAttribute('type', 'button')
   addToCartButton.setAttribute('data-button', 'return')
@@ -137,10 +139,23 @@ function addToCartButton(product) {
   addToCartButton.textContent = 'Add to Cart'
   product.appendChild(addToCartButton)
   addToCartButton.addEventListener('click', function(event){
-    addToCart(product, shoppingCart)
+    addToCart(product, shoppingCart, itemList)
+    updateCartButton(cartCount)
   })
 }
 
-function addToCart(product, cart){
-  cart.unshift(product.id);
+function addToCart(product, cart, itemList) {
+  var cartId = product.id
+  cart.unshift(itemList[cartId]);
+}
+
+function updateCartButton(count) {
+  console.log(count)
+  count += 1
+  console.log('update ' + count)
+  var $count = document.getElementById('cart-icon').textContent
+  console.log(typeof $count)
+  console.log($count)
+  $count = 'Cart '  + count
+  console.log($count)
 }
