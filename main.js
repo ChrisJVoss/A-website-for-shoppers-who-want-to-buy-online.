@@ -75,7 +75,6 @@ function displayItemDetails(itemList, productId, itemContainer, row) {
   var id = getView(views, $id)
   swapToView(views[id], views)
   itemDescription(itemList, productId, product)
-  // createReturnButton(product)
   addToCartButton(product, itemList)
 }
 
@@ -149,6 +148,6 @@ function addToCart(product, cart, itemList) {
 }
 
 function updateCartButton(cartSize) {
-  count = cartSize.length
+  var count = cartSize.length
   document.getElementById('count').textContent = count
 }
