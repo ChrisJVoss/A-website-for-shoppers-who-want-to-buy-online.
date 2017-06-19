@@ -95,7 +95,6 @@ function itemDescription(itemList, productId, product) {
 function createReturnButton(product) {
   var $backButton = document.createElement('button')
   $backButton.setAttribute('type', 'button')
-  $backButton.setAttribute('data-button', 'return')
   $backButton.classList.add('btn')
   $backButton.classList.add('btn-elegant')
   $backButton.textContent = 'Return'
@@ -131,7 +130,6 @@ function getView(views, id) {
 function addToCartButton(product, itemList) {
   var addToCartButton = document.createElement('button')
   addToCartButton.setAttribute('type', 'button')
-  addToCartButton.setAttribute('data-button', 'return')
   addToCartButton.classList.add('btn')
   addToCartButton.classList.add('btn-elegant')
   addToCartButton.textContent = 'Add to Cart'
