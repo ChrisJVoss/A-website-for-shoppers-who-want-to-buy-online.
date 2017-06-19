@@ -13,8 +13,6 @@ var views = ['products', 'details', 'cart']
 
 var shoppingCart = []
 
-var cartCount = 0
-
 function renderItem(product) {
   var $newItem = document.createElement('div')
   var $itemImg = document.createElement('img')
