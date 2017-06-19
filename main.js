@@ -9,7 +9,7 @@ var items = [
   {id: 7, name: 'Shure SRH1840 Professional Open Back Headphones (Black)', price: 449, img: 'https://images-na.ssl-images-amazon.com/images/I/71R16D0qENL._SL1500_.jpg', description: 'Individually matched 40 mm neodymium drivers for unparalleled acoustic performance with smooth, extended high-end and accurate bass. Open-back, circumaural design for exceptionally natural sound, wide stereo image, and increased depth of field. Lightweight construction featuring aircraft-grade aluminum alloy yoke and stainless steel grilles for enhanced durability. Steel driver frame with vented center pole piece improves linearity and eliminates internal resonance for consistent performance at all listening levels. Ergonomic dual-frame, padded headband is lightweight and fully adjustable for hours of listening comfort'}
 ]
 
-var views = ['products', 'details']
+var views = ['products', 'details', 'cart']
 
 function renderItem(product) {
   var $newItem = document.createElement('div')
@@ -74,6 +74,7 @@ function displayItemDetails(itemList, productId, itemContainer, row) {
   swapToView(views[id], views)
   itemDescription(itemList, productId, product)
   createReturnButton(product)
+  addToCartButton(product)
 }
 
 function itemDescription(itemList, productId, product) {
@@ -123,4 +124,21 @@ function getView(views, id) {
       return i
     }
   }
+}
+
+// Issue 3
+
+function addToCartButton(product) {
+  var addToCartButton = document.createElement('button')
+  addToCartButton.setAttribute('type', 'button')
+  addToCartButton.setAttribute('data-button', 'return')
+  addToCartButton.classList.add('btn')
+  addToCartButton.classList.add('btn-elegant')
+  addToCartButton.textContent = 'Add to Cart'
+  product.appendChild(addToCartButton)
+  addToCartButton.addEventListener('click', function(event){
+    var $id = document.getElementById('cart').id
+    var id = getView(views, $id)
+    swapToView(views[id], views)
+  })
 }
