@@ -11,6 +11,11 @@ var items = [
 
 var views = ['products', 'details', 'cart', 'checkout']
 
+var buttons = [
+  {name: 'returnButton', idName: 'return-button', text: 'Return', color: 'btn-primary', destination: 'products'},
+  {name: 'checkoutButton', idName: 'checkout-button', text: 'Checkout', color: 'btn-success', destination: 'checkout'}
+]
+
 var shoppingCart = []
 
 function renderItem(product) {
@@ -89,7 +94,7 @@ function itemDescription(itemList, productId, product) {
     $descriptionList.appendChild($description)
   }
   product.appendChild($descriptionList)
-  createGenericButton($descriptionList, 'return-button', 'Return', 'btn-primary', 'products')
+  createGenericButton($descriptionList, buttons, 'returnButton')
 }
 
 function swapToView(view, views) {
@@ -158,9 +163,9 @@ function createCart(cartList) {
     var $product = renderItem(currentProduct)
     $shoppingCart.appendChild($product)
   }
-  createGenericButton($shoppingCart, 'return-button', 'Return', 'btn-primary', 'products')
+  createGenericButton($shoppingCart, buttons, 'returnButton')
   totalPrice(shoppingCart)
-  createGenericButton($totalPrice, 'checkout-button', 'Checkout', 'btn-success', 'checkout')
+  createGenericButton($totalPrice, buttons, 'checkoutButton')
 }
 
 function totalPrice(cartList) {
@@ -171,16 +176,22 @@ function totalPrice(cartList) {
   document.getElementById('total-price').textContent = 'Total: ' + total.toFixed(2)
 }
 
-function createGenericButton(location, idName, text, color, destination) {
-  var button = document.createElement('button')
-  button.setAttribute('type', 'button')
-  button.setAttribute('id', idName)
-  button.classList.add('btn')
-  button.classList.add(color)
-  button.textContent = text
-  location.appendChild(button)
-  button.addEventListener('click', function(event){
-    var $id = document.getElementById(destination).id
+function createGenericButton(location, buttonList, button) {
+  var theButton = {}
+  for (var i = 0; i < buttonList.length; i++) {
+    if (buttonList[i].name === button) {
+      theButton = buttonList[i]
+    }
+  }
+  var genericButton = document.createElement('button')
+  genericButton.setAttribute('type', 'button')
+  genericButton.setAttribute('id', theButton.idName)
+  genericButton.classList.add('btn')
+  genericButton.classList.add(theButton.color)
+  genericButton.textContent = theButton.text
+  location.appendChild(genericButton)
+  genericButton.addEventListener('click', function(event){
+    var $id = document.getElementById(theButton.destination).id
     var id = getView(views, $id)
     swapToView(views[id], views)
   })
