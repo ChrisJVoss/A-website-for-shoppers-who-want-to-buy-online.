@@ -9,7 +9,9 @@ var items = [
   {id: 7, name: 'Shure SRH1840 Professional Open Back Headphones (Black)', price: 449, img: 'https://images-na.ssl-images-amazon.com/images/I/71R16D0qENL._SL1500_.jpg', description: 'Individually matched 40 mm neodymium drivers for unparalleled acoustic performance with smooth, extended high-end and accurate bass. Open-back, circumaural design for exceptionally natural sound, wide stereo image, and increased depth of field. Lightweight construction featuring aircraft-grade aluminum alloy yoke and stainless steel grilles for enhanced durability. Steel driver frame with vented center pole piece improves linearity and eliminates internal resonance for consistent performance at all listening levels. Ergonomic dual-frame, padded headband is lightweight and fully adjustable for hours of listening comfort'}
 ]
 
-var views = ['products', 'details']
+var views = ['products', 'details', 'cart']
+
+var shoppingCart = []
 
 function renderItem(product) {
   var $newItem = document.createElement('div')
@@ -29,12 +31,12 @@ function renderItem(product) {
   $itemImg.classList.add('col-md-4')
 
   $itemName.classList.add('item-name')
-  $itemName.classList.add('col-md-4')
+  $itemName.classList.add('col-md-5')
   $itemName.setAttribute('data-product', product.id)
   $itemName.textContent = product.name
 
-  $itemPrice.classList.add('item-stats')
-  $itemPrice.classList.add('col-md-4')
+  $itemPrice.classList.add('item-price')
+  $itemPrice.classList.add('col-md-3')
   $itemPrice.setAttribute('data-product', product.id)
   $itemPrice.textContent = '$' + product.price.toFixed(2)
 
@@ -73,7 +75,7 @@ function displayItemDetails(itemList, productId, itemContainer, row) {
   var id = getView(views, $id)
   swapToView(views[id], views)
   itemDescription(itemList, productId, product)
-  createReturnButton(product)
+  addToCartButton(product, itemList)
 }
 
 function itemDescription(itemList, productId, product) {
@@ -87,16 +89,17 @@ function itemDescription(itemList, productId, product) {
     $descriptionList.appendChild($description)
   }
   product.appendChild($descriptionList)
+  createReturnButton($descriptionList)
 }
 
-function createReturnButton(product) {
+function createReturnButton(location) {
   var $backButton = document.createElement('button')
   $backButton.setAttribute('type', 'button')
-  $backButton.setAttribute('data-button', 'return')
+  $backButton.setAttribute('id', 'return-button')
   $backButton.classList.add('btn')
-  $backButton.classList.add('btn-elegant')
+  $backButton.classList.add('btn-primary')
   $backButton.textContent = 'Return'
-  product.appendChild($backButton)
+  location.appendChild($backButton)
   $backButton.addEventListener('click', function(event){
     var $id = document.getElementById('products').id
     var id = getView(views, $id)
@@ -123,4 +126,28 @@ function getView(views, id) {
       return i
     }
   }
+}
+
+function addToCartButton(product, itemList) {
+  var addToCartButton = document.createElement('button')
+  addToCartButton.setAttribute('type', 'button')
+  addToCartButton.setAttribute('id', 'add-to-cart')
+  addToCartButton.classList.add('btn')
+  addToCartButton.classList.add('btn-danger')
+  addToCartButton.textContent = 'Add to Cart'
+  product.appendChild(addToCartButton)
+  addToCartButton.addEventListener('click', function(event){
+    addToCart(product, shoppingCart, itemList)
+    updateCartButton(shoppingCart)
+  })
+}
+
+function addToCart(product, cart, itemList) {
+  var cartId = product.id
+  cart.push(itemList[cartId]);
+}
+
+function updateCartButton(cartSize) {
+  var count = cartSize.length
+  document.getElementById('count').textContent = count
 }

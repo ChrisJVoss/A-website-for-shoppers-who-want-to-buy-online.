@@ -18,6 +18,30 @@
   float: left;
 }
 
+.item-name {
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.item-price {
+  text-align: center;
+}
+
 .hidden {
   display: none;
+}
+
+#cart-icon {
+  position: fixed;
+  padding: 10px;
+  right: 25px;
+  top: 15px;
+}
+
+#return-button {
+  margin-top: 20px;
+}
+
+#add-to-cart {
+  float: right;
 }
