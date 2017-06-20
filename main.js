@@ -9,7 +9,7 @@ var items = [
   {id: 7, name: 'Shure SRH1840 Professional Open Back Headphones (Black)', price: 449, img: 'https://images-na.ssl-images-amazon.com/images/I/71R16D0qENL._SL1500_.jpg', description: 'Individually matched 40 mm neodymium drivers for unparalleled acoustic performance with smooth, extended high-end and accurate bass. Open-back, circumaural design for exceptionally natural sound, wide stereo image, and increased depth of field. Lightweight construction featuring aircraft-grade aluminum alloy yoke and stainless steel grilles for enhanced durability. Steel driver frame with vented center pole piece improves linearity and eliminates internal resonance for consistent performance at all listening levels. Ergonomic dual-frame, padded headband is lightweight and fully adjustable for hours of listening comfort'}
 ]
 
-var views = ['products', 'details', 'cart']
+var views = ['products', 'details', 'cart', 'checkout']
 
 var shoppingCart = []
 
@@ -89,22 +89,7 @@ function itemDescription(itemList, productId, product) {
     $descriptionList.appendChild($description)
   }
   product.appendChild($descriptionList)
-  createReturnButton($descriptionList)
-}
-
-function createReturnButton(location) {
-  var $backButton = document.createElement('button')
-  $backButton.setAttribute('type', 'button')
-  $backButton.setAttribute('id', 'return-button')
-  $backButton.classList.add('btn')
-  $backButton.classList.add('btn-primary')
-  $backButton.textContent = 'Return'
-  location.appendChild($backButton)
-  $backButton.addEventListener('click', function(event){
-    var $id = document.getElementById('products').id
-    var id = getView(views, $id)
-    swapToView(views[id], views)
-  })
+  createGenericButton($descriptionList, 'return-button', 'Return', 'btn-primary', 'products')
 }
 
 function swapToView(view, views) {
@@ -153,8 +138,6 @@ function updateCartButton(cartSize) {
   document.getElementById('count').textContent = count
 }
 
-// Issue-4
-
 function goToCartButton() {
   var $cartButton = document.getElementById('cart-icon')
   $cartButton.addEventListener('click', function(event) {
@@ -168,14 +151,16 @@ goToCartButton()
 
 function createCart(cartList) {
   var $shoppingCart = document.getElementById('shopping-cart')
+  var $totalPrice = document.getElementById('total-price')
   $shoppingCart.innerHTML=''
   for (var i = 0; i < cartList.length; i++) {
     var currentProduct = cartList[i]
     var $product = renderItem(currentProduct)
     $shoppingCart.appendChild($product)
   }
-  createReturnButton($shoppingCart)
+  createGenericButton($shoppingCart, 'return-button', 'Return', 'btn-primary', 'products')
   totalPrice(shoppingCart)
+  createGenericButton($totalPrice, 'checkout-button', 'Checkout', 'btn-success', 'checkout')
 }
 
 function totalPrice(cartList) {
@@ -184,4 +169,19 @@ function totalPrice(cartList) {
     total += cartList[i].price
   }
   document.getElementById('total-price').textContent = 'Total: ' + total.toFixed(2)
+}
+
+function createGenericButton(location, idName, text, color, destination) {
+  var button = document.createElement('button')
+  button.setAttribute('type', 'button')
+  button.setAttribute('id', idName)
+  button.classList.add('btn')
+  button.classList.add(color)
+  button.textContent = text
+  location.appendChild(button)
+  button.addEventListener('click', function(event){
+    var $id = document.getElementById(destination).id
+    var id = getView(views, $id)
+    swapToView(views[id], views)
+  })
 }
