@@ -49,3 +49,12 @@
 #add-to-cart {
   float: right;
 }
+
+h3 {
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+#total-price {
+  font-size: 16px;
+}

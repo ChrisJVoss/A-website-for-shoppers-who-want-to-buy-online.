@@ -167,12 +167,21 @@ function goToCartButton() {
 goToCartButton()
 
 function createCart(cartList) {
-  var $cart = document.getElementById('cart')
-  $cart.innerHTML=''
+  var $shoppingCart = document.getElementById('shopping-cart')
+  $shoppingCart.innerHTML=''
   for (var i = 0; i < cartList.length; i++) {
     var currentProduct = cartList[i]
     var $product = renderItem(currentProduct)
-    $cart.appendChild($product)
+    $shoppingCart.appendChild($product)
   }
-  createReturnButton($cart)
+  createReturnButton($shoppingCart)
+  totalPrice(shoppingCart)
+}
+
+function totalPrice(cartList) {
+  var total = 0
+  for (var i = 0; i < cartList.length; i++) {
+    total += cartList[i].price
+  }
+  document.getElementById('total-price').textContent = 'Total: ' + total.toFixed(2)
 }
