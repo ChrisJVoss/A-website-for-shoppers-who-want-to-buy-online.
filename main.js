@@ -196,3 +196,48 @@ function createGenericButton(location, buttonList, button) {
     swapToView(views[id], views)
   })
 }
+
+function createCheckout() {
+  var $checkout = document.getElementById('checkout')
+  var $div = document.createElement('div')
+  var $span = document.createElement('span')
+  var $street= document.createElement('input')
+  var $city= document.createElement('input')
+  var $state= document.createElement('input')
+  var $zip= document.createElement('input')
+
+  $div.classList.add('input-group')
+
+  $span.setAttribute('id', 'basic-addon1')
+  $span.classList.add('input-group-addon')
+  $span.textContent = 'Address:'
+
+  $street.setAttribute('type', 'text')
+  $street.setAttribute('placeholder', 'Street Name')
+  $street.setAttribute('aria-describedby', 'basic-addon1')
+  $street.classList.add('form-control')
+
+  $city.setAttribute('type', 'text')
+  $city.setAttribute('placeholder', 'City Name')
+  $city.setAttribute('aria-describedby', 'basic-addon1')
+  $city.classList.add('form-control')
+
+  $state.setAttribute('type', 'text')
+  $state.setAttribute('placeholder', 'State')
+  $state.setAttribute('aria-describedby', 'basic-addon1')
+  $state.classList.add('form-control')
+
+  $zip.setAttribute('type', 'text')
+  $zip.setAttribute('placeholder', 'Zip Code')
+  $zip.setAttribute('aria-describedby', 'basic-addon1')
+  $zip.classList.add('form-control')
+
+  $div.appendChild($span)
+  $div.appendChild($street)
+  $div.appendChild($city)
+  $div.appendChild($state)
+  $div.appendChild($zip)
+  $checkout.appendChild($div)
+}
+
+createCheckout()
