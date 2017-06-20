@@ -139,6 +139,7 @@ function addToCartButton(product, itemList) {
   addToCartButton.addEventListener('click', function(event){
     addToCart(product, shoppingCart, itemList)
     updateCartButton(shoppingCart)
+    createCart(shoppingCart)
   })
 }
 
@@ -150,4 +151,28 @@ function addToCart(product, cart, itemList) {
 function updateCartButton(cartSize) {
   var count = cartSize.length
   document.getElementById('count').textContent = count
+}
+
+// Issue-4
+
+function goToCartButton() {
+  var $cartButton = document.getElementById('cart-icon')
+  $cartButton.addEventListener('click', function(event) {
+    var $id = document.getElementById('cart').id
+    var id = getView(views, $id)
+    swapToView(views[id], views)
+  })
+}
+
+goToCartButton()
+
+function createCart(cartList) {
+  var $cart = document.getElementById('cart')
+  $cart.innerHTML=''
+  for (var i = 0; i < cartList.length; i++) {
+    var currentProduct = cartList[i]
+    var $product = renderItem(currentProduct)
+    $cart.appendChild($product)
+  }
+  createReturnButton($cart)
 }

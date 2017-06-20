@@ -4,7 +4,7 @@
 }
 
 .container {
-  padding-top: 20px;
+  padding-top: 61px;
 }
 
 .selected-item {
@@ -31,11 +31,15 @@
   display: none;
 }
 
-#cart-icon {
+.cart-icon-container {
   position: fixed;
+}
+
+#cart-icon {
   padding: 10px;
-  right: 25px;
-  top: 15px;
+  float: right;
+  margin-right: 15px;
+  margin-top: 15px;
 }
 
 #return-button {
