@@ -10,7 +10,7 @@
     <title>Audio Zone</title>
   </head>
   <body>
-    <div class="cart-button-container">
+    <div id="cart-button-container">
       <button type="button" class="btn btn-default btn-lg" id="cart-icon">
         <span class="glyphicon glyphicon-shopping-cart"></span> Cart <span id="count">0</span>
       </button>
@@ -28,16 +28,23 @@
       </div>
       <div id="checkout">
         <div class="row">
-          <div class="col-md-10" id="step1">
+          <div class="col-md-10">
             <h4>Shipping Adress</h4>
             <hr/>
+            <form id="step1">
+            </form>
           </div>
-          <div class="col-md-10" id="step2">
+          <div class="col-md-10">
             <hr/>
             <h4>Billing Information</h4>
             <hr/>
+            <form id="step2">
+            </form>
           </div>
           <div class="col-md-10" id="step3">
+            <hr/>
+            <h4>Order Confirmation</h4>
+            <hr/>
           </div>
         </div>
       </div>

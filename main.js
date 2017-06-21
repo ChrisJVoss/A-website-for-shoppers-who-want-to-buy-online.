@@ -163,9 +163,9 @@ function createCart(cartList) {
     var $product = renderItem(currentProduct)
     $shoppingCart.appendChild($product)
   }
-  createGenericButton($shoppingCart, buttons, 'returnButton')
   totalPrice(shoppingCart)
   createGenericButton($totalPrice, buttons, 'checkoutButton')
+  createGenericButton($shoppingCart, buttons, 'returnButton')
 }
 
 function totalPrice(cartList) {
