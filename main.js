@@ -196,48 +196,140 @@ function createGenericButton(location, buttonList, button) {
     swapToView(views[id], views)
   })
 }
+var formList = [
+  {name: 'address', inputs: ['Full name:', 'Address:', 'City:', 'State/Province/Region:', 'ZIP:', 'Country:']}
+]
 
-function createCheckout() {
+function addressForm(creatorList, selector) {
+  console.log("function started")
+  var chosenOne = {}
   var $checkout = document.getElementById('checkout')
-  var $div = document.createElement('div')
-  var $span = document.createElement('span')
+  for(var i = 0; i < creatorList.length; i++) {
+    console.log("first for loop")
+    if (creatorList[i].name === selector) {
+      console.log("IF statement")
+       chosenOne = creatorList[i]
+       console.log(chosenOne)
+       console.log(chosenOne.inputs.length)
+       for (var x = 0; x < chosenOne.inputs.length; x++) {
+        var $divShipping = document.createElement('div')
+        var $label = document.createElement('label')
+        var $divSize = document.createElement('div')
+        var $input = document.createElement('input')
+
+        $divShipping.classList.add('form-group')
+
+        $divShipping.classList.add('row')
+        $label.classList.add('col-md-2')
+        $label.classList.add('col-form-label')
+        $label.textContent = chosenOne.inputs[x]
+        $divSize.classList.add('col-md-8')
+        $input.classList.add('form-control')
+        $input.setAttribute('type', 'text')
+
+        $divSize.appendChild($input)
+        $divShipping.appendChild($label)
+        $divShipping.appendChild($divSize)
+
+        $checkout.appendChild($divShipping)
+        console.log("function end")
+      }
+    }
+  }
+}
+
+addressForm(formList, 'address')
+
+
+
+
+
+
+/*
+function createAddress(addressType) {
+  var $checkout = document.getElementById('checkout')
+  var $divShipping = document.createElement('div')
+  var $spanShipping = document.createElement('span')
+  var $name = document.createElement('input')
   var $street= document.createElement('input')
   var $city= document.createElement('input')
   var $state= document.createElement('input')
   var $zip= document.createElement('input')
 
-  $div.classList.add('input-group')
+  $divShipping.classList.add('input-group')
+  $divShipping.classList.add('col-md-5')
+  $spanShipping.classList.add('input-group-addon')
+  $spanShipping.textContent = addressType
 
-  $span.setAttribute('id', 'basic-addon1')
-  $span.classList.add('input-group-addon')
-  $span.textContent = 'Address:'
+  $name.setAttribute('type', 'text')
+  $name.setAttribute('placeholder', 'John Doe')
+  $name.classList.add('form-control')
 
   $street.setAttribute('type', 'text')
-  $street.setAttribute('placeholder', 'Street Name')
-  $street.setAttribute('aria-describedby', 'basic-addon1')
+  $street.setAttribute('placeholder', 'Street')
   $street.classList.add('form-control')
 
   $city.setAttribute('type', 'text')
-  $city.setAttribute('placeholder', 'City Name')
-  $city.setAttribute('aria-describedby', 'basic-addon1')
+  $city.setAttribute('placeholder', 'City')
   $city.classList.add('form-control')
 
   $state.setAttribute('type', 'text')
   $state.setAttribute('placeholder', 'State')
-  $state.setAttribute('aria-describedby', 'basic-addon1')
   $state.classList.add('form-control')
 
   $zip.setAttribute('type', 'text')
   $zip.setAttribute('placeholder', 'Zip Code')
-  $zip.setAttribute('aria-describedby', 'basic-addon1')
   $zip.classList.add('form-control')
 
-  $div.appendChild($span)
-  $div.appendChild($street)
-  $div.appendChild($city)
-  $div.appendChild($state)
-  $div.appendChild($zip)
-  $checkout.appendChild($div)
+  $divShipping.appendChild($spanShipping)
+  $divShipping.appendChild($name)
+  $divShipping.appendChild($street)
+  $divShipping.appendChild($city)
+  $divShipping.appendChild($state)
+  $divShipping.appendChild($zip)
+
+  $checkout.appendChild($divShipping)
+}
+function billing(addressType) {
+  var $checkout = document.getElementById('checkout')
+  var $divBilling = document.createElement('div')
+  var $spanBilling = document.createElement('span')
+  var $cardHolder = document.createElement('input')
+  var $cardNumber = document.createElement('input')
+  var $csc = document.createElement('input')
+  var $date = document.createElement('input')
+
+  $divBilling.classList.add('input-group')
+  $divBilling.classList.add('col-md-5')
+  $spanBilling.classList.add('input-group-addon')
+  $spanBilling.textContent = 'Credit Card:'
+
+  $cardHolder.setAttribute('type', 'text')
+  $cardHolder.setAttribute('placeholder', 'John Doe')
+  $cardHolder.classList.add('form-control')
+
+  $cardNumber.setAttribute('type', 'text')
+  $cardNumber.setAttribute('placeholder', 'Card Number')
+  $cardNumber.classList.add('form-control')
+
+  $csc.setAttribute('type', 'text')
+  $csc.setAttribute('placeholder', 'CSC')
+  $csc.classList.add('form-control')
+
+  $date.setAttribute('id', 'date')
+  $date.setAttribute('type', 'month')
+  $date.classList.add('form-control')
+
+  $divBilling.appendChild($spanBilling)
+  $divBilling.appendChild($cardHolder)
+  $divBilling.appendChild($cardNumber)
+  $divBilling.appendChild($csc)
+  $divBilling.appendChild($date)
+
+  $checkout.appendChild($divBilling)
+  createAddress(addressType)
 }
 
-createCheckout()
+createAddress('Shipping Address:')
+billing("Billing Address:")
+*/

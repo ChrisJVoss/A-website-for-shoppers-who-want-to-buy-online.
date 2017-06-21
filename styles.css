@@ -38,7 +38,7 @@
 #cart-icon {
   padding: 10px;
   float: right;
-  margin-right: 15px;
+  margin-right: 45px;
   margin-top: 15px;
 }
 
@@ -58,3 +58,12 @@ h3 {
 #total-price {
   font-size: 16px;
 }
+
+#checkout-button {
+  float: right;
+}
+
+/*.input-group-addon {
+  width: 140px;
+}
+*/
