@@ -63,7 +63,17 @@ h3 {
   float: right;
 }
 
-/*.input-group-addon {
+.btn-warning {
+  float: right;
+}
+
+/*
+#checkout {
+  background-color: #111;
+  opacity: 0.75;
+}
+
+.input-group-addon {
   width: 140px;
 }
 */
