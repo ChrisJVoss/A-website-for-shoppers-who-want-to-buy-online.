@@ -18,6 +18,11 @@ var buttons = [
 
 var shoppingCart = []
 
+var formList = [
+  {name: 'address', inputs: ['Full name:', 'Address:', 'City:', 'State/Province/Region:', 'ZIP:', 'Country:']},
+  {name: 'billing', inputs: ['Card number:', 'Name on card:', 'Expiration date:']}
+]
+
 function renderItem(product) {
   var $newItem = document.createElement('div')
   var $itemImg = document.createElement('img')
@@ -25,7 +30,7 @@ function renderItem(product) {
   var $itemPrice = document.createElement('span')
   var $lineBreak = document.createElement('hr')
 
-  $newItem.classList.add('item-itemContainer')
+  $newItem.classList.add('item-item-container')
   $newItem.classList.add('col-md-10')
   $newItem.setAttribute('data-product', product.id)
   $newItem.id = product.id
@@ -62,7 +67,7 @@ function displayItems(itemList) {
     var $product = renderItem(currentProduct)
     $products.appendChild($product)
   }
-  var $items = document.querySelectorAll('div.item-itemContainer')
+  var $items = document.querySelectorAll('div.item-item-container')
   $products.addEventListener('click', function(event) {
     var productId = event.target.dataset.product
     displayItemDetails(itemList, productId, $items, $products)
@@ -127,19 +132,18 @@ function addToCartButton(product, itemList) {
   addToCartButton.textContent = 'Add to Cart'
   product.appendChild(addToCartButton)
   addToCartButton.addEventListener('click', function(event){
-    addToCart(product, shoppingCart, itemList)
+    addToCart(product, shoppingCart, items)
     updateCartButton(shoppingCart)
-    createCart(shoppingCart)
+    createCart(getCartItems(shoppingCart, items))
   })
 }
 
-function addToCart(product, cart, itemList) {
-  var cartId = product.id
-  cart.push(itemList[cartId]);
-}
-
 function updateCartButton(cartSize) {
-  var count = cartSize.length
+  var count = 0
+  console.log(shoppingCart)
+  for (var i = 0; i < cartSize.length; i++) {
+    count += cartSize[i].quantity
+  }
   document.getElementById('count').textContent = count
 }
 
@@ -161,6 +165,7 @@ function createCart(cartList) {
   for (var i = 0; i < cartList.length; i++) {
     var currentProduct = cartList[i]
     var $product = renderItem(currentProduct)
+    $product.appendChild(addSelector(shoppingCart, $product))
     $shoppingCart.appendChild($product)
   }
   totalPrice(shoppingCart)
@@ -171,7 +176,7 @@ function createCart(cartList) {
 function totalPrice(cartList) {
   var total = 0
   for (var i = 0; i < cartList.length; i++) {
-    total += cartList[i].price
+    total += (cartList[i].price * cartList[i].quantity)
   }
   document.getElementById('total-price').textContent = 'Total: ' + total.toFixed(2)
 }
@@ -196,10 +201,6 @@ function createGenericButton(location, buttonList, button) {
     swapToView(views[id], views)
   })
 }
-var formList = [
-  {name: 'address', inputs: ['Full name:', 'Address:', 'City:', 'State/Province/Region:', 'ZIP:', 'Country:']},
-  {name: 'billing', inputs: ['Card number:', 'Name on card:', 'Expiration date:']}
-]
 
 function addressForm(creatorList, selector, destination) {
   var chosenOne = {}
@@ -247,3 +248,40 @@ addressForm(formList, 'address', 'step1')
 submitButton('step1')
 addressForm(formList, 'billing', 'step2')
 submitButton('step2')
+
+function addSelector(cart, product) {
+  var $select = document.createElement('select')
+  $select.setAttribute('id', 'selector')
+  for (var i = 1; i < 11; i++) {
+    var $option = document.createElement('option')
+    $option.setAttribute('value', 'value' + i)
+    if (cart[product.id].quantity === i) {
+      $option.selected = true
+    }
+    $option.textContent = i
+    $select.appendChild($option)
+  }
+  return $select
+}
+
+function addToCart(product, cart, itemList) {
+  var inCart = cart[product.id]
+  if (inCart === undefined) {
+    cart[product.id] = {
+      quantity: 1,
+      id: product.id,
+      price: itemList[product.id].price
+    }
+  }
+  else {
+    cart[product.id].quantity += 1
+  }
+}
+
+function getCartItems(cart, itemList) {
+  var cartItems = []
+  for (var itemId in cart) {
+    cartItems.push(itemList[itemId])
+  }
+  return cartItems
+}
