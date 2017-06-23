@@ -31,7 +31,7 @@ function renderItem(product) {
   var $lineBreak = document.createElement('hr')
 
   $newItem.classList.add('item-item-container')
-  $newItem.classList.add('col-md-10')
+  $newItem.classList.add('row')
   $newItem.setAttribute('data-product', product.id)
   $newItem.id = product.id
 
