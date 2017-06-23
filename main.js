@@ -165,7 +165,7 @@ function createCart(cartList) {
     var currentProduct = cartList[i]
     var $product = renderItem(currentProduct)
     $product.appendChild(addSelector(shoppingCart, $product))
-    //$product.appendChild(removeItemButton(shoppingCart, $product))
+    $product.appendChild(removeItemButton(shoppingCart, $product))
     $shoppingCart.appendChild($product)
   }
   totalPrice(shoppingCart)
@@ -301,7 +301,7 @@ function getCartItems(cart, itemList) {
   return cartItems
 }
 
-/*
+
 function removeItemButton(cart, product) {
   var $removeButton = document.createElement('button')
   $removeButton.setAttribute('type', 'button')
@@ -311,13 +311,13 @@ function removeItemButton(cart, product) {
   $removeButton.textContent = 'Remove'
   $removeButton.addEventListener('click', function(event){
     var id = product.id
-    cart.splice(id, 1)
+    delete cart[id]
     createCart(getCartItems(cart, items))
     updateCartButton(cart)
   })
   return $removeButton
 }
-
+/*
 map, filter reduce
 
 function
