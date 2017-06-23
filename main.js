@@ -9,9 +9,19 @@ var items = [
   {id: 7, name: 'Shure SRH1840 Professional Open Back Headphones (Black)', price: 449, img: 'https://images-na.ssl-images-amazon.com/images/I/71R16D0qENL._SL1500_.jpg', description: 'Individually matched 40 mm neodymium drivers for unparalleled acoustic performance with smooth, extended high-end and accurate bass. Open-back, circumaural design for exceptionally natural sound, wide stereo image, and increased depth of field. Lightweight construction featuring aircraft-grade aluminum alloy yoke and stainless steel grilles for enhanced durability. Steel driver frame with vented center pole piece improves linearity and eliminates internal resonance for consistent performance at all listening levels. Ergonomic dual-frame, padded headband is lightweight and fully adjustable for hours of listening comfort'}
 ]
 
-var views = ['products', 'details', 'cart']
+var views = ['products', 'details', 'cart', 'checkout']
 
-var shoppingCart = []
+var buttons = [
+  {name: 'returnButton', idName: 'return-button', text: 'Return', color: 'btn-primary', destination: 'products'},
+  {name: 'checkoutButton', idName: 'checkout-button', text: 'Checkout', color: 'btn-success', destination: 'checkout'}
+]
+
+var shoppingCart = {}
+
+var formList = [
+  {name: 'address', inputs: ['Full name:', 'Address:', 'City:', 'State/Province/Region:', 'ZIP:', 'Country:']},
+  {name: 'billing', inputs: ['Card number:', 'Name on card:', 'Expiration date:']}
+]
 
 function renderItem(product) {
   var $newItem = document.createElement('div')
@@ -20,8 +30,8 @@ function renderItem(product) {
   var $itemPrice = document.createElement('span')
   var $lineBreak = document.createElement('hr')
 
-  $newItem.classList.add('item-itemContainer')
-  $newItem.classList.add('col-md-10')
+  $newItem.classList.add('item-item-container')
+  $newItem.classList.add('row')
   $newItem.setAttribute('data-product', product.id)
   $newItem.id = product.id
 
@@ -57,7 +67,7 @@ function displayItems(itemList) {
     var $product = renderItem(currentProduct)
     $products.appendChild($product)
   }
-  var $items = document.querySelectorAll('div.item-itemContainer')
+  var $items = document.querySelectorAll('div.item-item-container')
   $products.addEventListener('click', function(event) {
     var productId = event.target.dataset.product
     displayItemDetails(itemList, productId, $items, $products)
@@ -89,22 +99,7 @@ function itemDescription(itemList, productId, product) {
     $descriptionList.appendChild($description)
   }
   product.appendChild($descriptionList)
-  createReturnButton($descriptionList)
-}
-
-function createReturnButton(location) {
-  var $backButton = document.createElement('button')
-  $backButton.setAttribute('type', 'button')
-  $backButton.setAttribute('id', 'return-button')
-  $backButton.classList.add('btn')
-  $backButton.classList.add('btn-primary')
-  $backButton.textContent = 'Return'
-  location.appendChild($backButton)
-  $backButton.addEventListener('click', function(event){
-    var $id = document.getElementById('products').id
-    var id = getView(views, $id)
-    swapToView(views[id], views)
-  })
+  createGenericButton($descriptionList, buttons, 'returnButton')
 }
 
 function swapToView(view, views) {
@@ -137,17 +132,179 @@ function addToCartButton(product, itemList) {
   addToCartButton.textContent = 'Add to Cart'
   product.appendChild(addToCartButton)
   addToCartButton.addEventListener('click', function(event){
-    addToCart(product, shoppingCart, itemList)
+    addToCart(product, shoppingCart, items)
     updateCartButton(shoppingCart)
+    createCart(getCartItems(shoppingCart, items))
   })
 }
 
-function addToCart(product, cart, itemList) {
-  var cartId = product.id
-  cart.push(itemList[cartId]);
+function updateCartButton(cartSize) {
+  var count = 0
+  for (key in cartSize) {
+    count += cartSize[key].quantity
+  }
+  document.getElementById('count').textContent = count
 }
 
-function updateCartButton(cartSize) {
-  var count = cartSize.length
-  document.getElementById('count').textContent = count
+function configureCartButton() {
+  var $cartButton = document.getElementById('cart-icon')
+  $cartButton.addEventListener('click', function(event) {
+    var $id = document.getElementById('cart').id
+    var id = getView(views, $id)
+    swapToView(views[id], views)
+  })
+}
+
+configureCartButton()
+
+function createCart(cartList) {
+  var $shoppingCart = document.getElementById('shopping-cart')
+  $shoppingCart.innerHTML=''
+  for (var i = 0; i < cartList.length; i++) {
+    var currentProduct = cartList[i]
+    var $product = renderItem(currentProduct)
+    $product.appendChild(addSelector(shoppingCart, $product))
+    $product.appendChild(removeItemButton(shoppingCart, $product))
+    $shoppingCart.appendChild($product)
+  }
+  totalPrice(shoppingCart)
+  createGenericButton($shoppingCart, buttons, 'returnButton')
+}
+
+function totalPrice(cartList) {
+  var $totalPrice = document.getElementById('total-price')
+  var total = 0
+  for (var i  in cartList) {
+      total += (cartList[i].price * cartList[i].quantity)
+  }
+  document.getElementById('total-price').textContent = 'Total: $' + total.toFixed(2)
+  createGenericButton($totalPrice, buttons, 'checkoutButton')
+}
+
+function createGenericButton(location, buttonList, button) {
+  var theButton = {}
+  for (var i = 0; i < buttonList.length; i++) {
+    if (buttonList[i].name === button) {
+      theButton = buttonList[i]
+    }
+  }
+  var genericButton = document.createElement('button')
+  genericButton.setAttribute('type', 'button')
+  genericButton.setAttribute('id', theButton.idName)
+  genericButton.classList.add('btn')
+  genericButton.classList.add(theButton.color)
+  genericButton.textContent = theButton.text
+  location.appendChild(genericButton)
+  genericButton.addEventListener('click', function(event){
+    var $id = document.getElementById(theButton.destination).id
+    var id = getView(views, $id)
+    swapToView(views[id], views)
+  })
+}
+
+function addressForm(creatorList, selector, destination) {
+  var chosenOne = {}
+  var $destination = document.getElementById(destination)
+  for(var i = 0; i < creatorList.length; i++) {
+    if (creatorList[i].name === selector) {
+       chosenOne = creatorList[i]
+       for (var i = 0; i < chosenOne.inputs.length; i++) {
+        var $divShipping = document.createElement('div')
+        var $label = document.createElement('label')
+        var $divSize = document.createElement('div')
+        var $input = document.createElement('input')
+
+        $divShipping.classList.add('form-group')
+
+        $divShipping.classList.add('row')
+        $label.classList.add('col-md-2')
+        $label.classList.add('col-form-label')
+        $label.textContent = chosenOne.inputs[i]
+        $divSize.classList.add('col-md-8')
+        $input.classList.add('form-control')
+        $input.setAttribute('type', 'text')
+
+
+        $divSize.appendChild($input)
+        $divShipping.appendChild($label)
+        $divShipping.appendChild($divSize)
+
+        $destination.appendChild($divShipping)
+      }
+    }
+  }
+}
+function submitButton(destination) {
+  var $destination = document.getElementById(destination)
+  var $button = document.createElement('button')
+  $button.setAttribute('type', 'submit')
+  $button.classList.add('btn')
+  $button.classList.add('btn-warning')
+  $button.textContent = 'Submit'
+
+  $destination.appendChild($button)
+}
+addressForm(formList, 'address', 'step1')
+submitButton('step1')
+addressForm(formList, 'billing', 'step2')
+submitButton('step2')
+
+function addSelector(cart, product) {
+  var $select = document.createElement('select')
+  $select.setAttribute('id', 'selector' + product.id)
+  for (var i = 1; i < 11; i++) {
+    var $option = document.createElement('option')
+    $option.setAttribute('value', i)
+    if (cart[product.id].quantity === i) {
+      $option.selected = true
+    }
+    $option.textContent = i
+    $select.appendChild($option)
+  }
+  $select.addEventListener('change', function(event){
+    var qty = parseInt(event.target.value, 10)
+    cart[product.id].quantity = qty
+
+    totalPrice(cart)
+    updateCartButton(cart)
+  })
+  return $select
+}
+
+function addToCart(product, cart, itemList) {
+  var inCart = cart[product.id]
+  if (inCart === undefined) {
+    cart[product.id] = {
+      quantity: 1,
+      id: product.id,
+      price: itemList[product.id].price
+    }
+  }
+  else {
+    cart[product.id].quantity += 1
+  }
+}
+
+function getCartItems(cart, itemList) {
+  var cartItems = []
+  for (var itemId in cart) {
+    cartItems.push(itemList[itemId])
+  }
+  return cartItems
+}
+
+function removeItemButton(cart, product) {
+  var $removeButton = document.createElement('button')
+  $removeButton.setAttribute('type', 'button')
+  $removeButton.setAttribute('id', 'remove')
+  $removeButton.classList.add('btn')
+  $removeButton.classList.add('btn-danger')
+  $removeButton.textContent = 'Remove'
+  $removeButton.addEventListener('click', function(event){
+    var id = product.id
+    delete cart[id]
+    createCart(getCartItems(cart, items))
+    updateCartButton(cart)
+  })
+  return $removeButton
 }

@@ -10,17 +10,44 @@
     <title>Audio Zone</title>
   </head>
   <body>
-    <div clas="cart-button-container">
+    <div id="cart-button-container">
       <button type="button" class="btn btn-default btn-lg" id="cart-icon">
         <span class="glyphicon glyphicon-shopping-cart"></span> Cart <span id="count">0</span>
       </button>
     </div>
     <div class="container">
       <div class="row" id="products">
+        <h1>Audio-Zone</h1>
       </div>
       <div class="row selected-item" id="details">
       </div>
-      <div class="row cart" id="cart">
+      <div class="row hidden" id="cart">
+        <h3>Shopping Cart</h3> <span id="total-price"></span>
+        <hr/>
+        <div class="col-md-8" id="shopping-cart">
+        </div>
+      </div>
+      <div class="hidden" id="checkout">
+        <div class="row">
+          <div class="col-md-10">
+            <h4>Shipping Adress</h4>
+            <hr/>
+            <form id="step1">
+            </form>
+          </div>
+          <div class="col-md-10">
+            <hr/>
+            <h4>Billing Information</h4>
+            <hr/>
+            <form id="step2">
+            </form>
+          </div>
+          <div class="col-md-10" id="step3">
+            <hr/>
+            <h4>Order Confirmation</h4>
+            <hr/>
+          </div>
+        </div>
       </div>
     </div>
     <script src="main.js"></script>
