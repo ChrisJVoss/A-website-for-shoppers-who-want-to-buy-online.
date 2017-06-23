@@ -20,7 +20,7 @@ var shoppingCart = {}
 
 var formList = [
   {name: 'address', inputs: ['Full name:', 'Address:', 'City:', 'State/Province/Region:', 'ZIP:', 'Country:']},
-  {name: 'billing', inputs: ['Card number:', 'Name on card:', 'Expiration date:']}
+  {name: 'billing', inputs: ['Card number:', 'CSC', 'Name on card:', 'Expiration date:']}
 ]
 
 function renderItem(product) {
@@ -135,6 +135,7 @@ function addToCartButton(product, itemList) {
     addToCart(product, shoppingCart, items)
     updateCartButton(shoppingCart)
     createCart(getCartItems(shoppingCart, items))
+    orderConfirmation('step3', shoppingCart, items)
   })
 }
 
@@ -174,7 +175,7 @@ function createCart(cartList) {
 function totalPrice(cartList) {
   var $totalPrice = document.getElementById('total-price')
   var total = 0
-  for (var i  in cartList) {
+  for (var i in cartList) {
       total += (cartList[i].price * cartList[i].quantity)
   }
   document.getElementById('total-price').textContent = 'Total: $' + total.toFixed(2)
@@ -207,24 +208,33 @@ function addressForm(creatorList, selector, destination) {
   var $destination = document.getElementById(destination)
   for(var i = 0; i < creatorList.length; i++) {
     if (creatorList[i].name === selector) {
-       chosenOne = creatorList[i]
-       for (var i = 0; i < chosenOne.inputs.length; i++) {
+      chosenOne = creatorList[i]
+      for (var i = 0; i < chosenOne.inputs.length; i++) {
         var $divShipping = document.createElement('div')
         var $label = document.createElement('label')
         var $divSize = document.createElement('div')
         var $input = document.createElement('input')
 
         $divShipping.classList.add('form-group')
-
         $divShipping.classList.add('row')
         $label.classList.add('col-md-2')
         $label.classList.add('col-form-label')
         $label.textContent = chosenOne.inputs[i]
         $divSize.classList.add('col-md-8')
         $input.classList.add('form-control')
+        $input.required = true
+        if (chosenOne.inputs[i] === 'Card number:') {
+          $input.setAttribute('pattern', '.{16,}')
+        }
+        else {
+          $input.setAttribute('pattern', '.{3,}')
+        }
+        if (chosenOne.inputs[i] === 'Expiration date:') {
+          $input.setAttribute('type', 'month')
+        }
+        else {
         $input.setAttribute('type', 'text')
-
-
+        }
         $divSize.appendChild($input)
         $divShipping.appendChild($label)
         $divShipping.appendChild($divSize)
@@ -243,6 +253,11 @@ function submitButton(destination) {
   $button.textContent = 'Submit'
 
   $destination.appendChild($button)
+  $button.addEventListener('click', function(event) {
+    if (destination != 'step3'){
+    event.preventDefault()
+    }
+  })
 }
 addressForm(formList, 'address', 'step1')
 submitButton('step1')
@@ -307,4 +322,30 @@ function removeItemButton(cart, product) {
     updateCartButton(cart)
   })
   return $removeButton
+}
+
+function orderConfirmation(destination, cart, itemList) {
+  var $destination = document.getElementById(destination)
+  $destination.innerHTML = ''
+  var $hr = document.createElement('hr')
+  var $h4 = document.createElement('h4')
+  $h4.textContent = 'Order Confirmation'
+  $destination.appendChild($hr)
+  $destination.appendChild($h4)
+  $destination.appendChild($hr)
+  var $total = document.createElement('div')
+  $total.textContent = 'Your order total: $' + totalPrice(shoppingCart)
+  var $overview = document.createElement('div')
+  $overview.textContent = 'You are purchasing:'
+  var $shoppingList = document.createElement('ul')
+  for (i in cart) {
+    var $item = document.createElement('li')
+    $item.textContent = cart[i].quantity
+    $item.textContent += ('x ' + itemList[cart[i].id].name)
+    $shoppingList.appendChild($item)
+    $overview.appendChild($shoppingList)
+  }
+  $destination.appendChild($overview)
+  $destination.appendChild($total)
+  submitButton('step3')
 }
