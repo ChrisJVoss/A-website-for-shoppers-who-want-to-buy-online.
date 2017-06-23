@@ -16,7 +16,7 @@ var buttons = [
   {name: 'checkoutButton', idName: 'checkout-button', text: 'Checkout', color: 'btn-success', destination: 'checkout'}
 ]
 
-var shoppingCart = []
+var shoppingCart = {}
 
 var formList = [
   {name: 'address', inputs: ['Full name:', 'Address:', 'City:', 'State/Province/Region:', 'ZIP:', 'Country:']},
@@ -140,10 +140,9 @@ function addToCartButton(product, itemList) {
 
 function updateCartButton(cartSize) {
   var count = 0
-  for (var i = 0; i < cartSize.length; i++) {
-    if (cartSize[i] != undefined) {
-      count += cartSize[i].quantity
-    }
+  for (key in cartSize) {
+    count += cartSize[key].quantity
+    console.log(typeof cartSize[key].quantity)
   }
   document.getElementById('count').textContent = count
 }
@@ -167,6 +166,7 @@ function createCart(cartList) {
     var currentProduct = cartList[i]
     var $product = renderItem(currentProduct)
     $product.appendChild(addSelector(shoppingCart, $product))
+    //$product.appendChild(removeItemButton(shoppingCart, $product))
     $shoppingCart.appendChild($product)
   }
   totalPrice(shoppingCart)
@@ -176,10 +176,8 @@ function createCart(cartList) {
 
 function totalPrice(cartList) {
   var total = 0
-  for (var i = 0; i < cartList.length; i++) {
-    if(cartList[i] != undefined) {
+  for (var i  in cartList) {
       total += (cartList[i].price * cartList[i].quantity)
-    }
   }
   document.getElementById('total-price').textContent = 'Total: $' + total.toFixed(2)
 }
@@ -212,6 +210,13 @@ function addressForm(creatorList, selector, destination) {
     if (creatorList[i].name === selector) {
        chosenOne = creatorList[i]
        for (var x = 0; x < chosenOne.inputs.length; x++) {
+         /*
+         if (chosenOne.inputs[x] === 'Expiration date:') {
+           var $divShipping = document.createElement('div')
+           var $label = document.createElement('label')
+           var $divSize = document.createElement('div')
+         }
+         */
         var $divShipping = document.createElement('div')
         var $label = document.createElement('label')
         var $divSize = document.createElement('div')
@@ -257,13 +262,20 @@ function addSelector(cart, product) {
   $select.setAttribute('id', 'selector' + product.id)
   for (var i = 1; i < 11; i++) {
     var $option = document.createElement('option')
-    $option.setAttribute('value', 'value' + i)
+    $option.setAttribute('value', i)
     if (cart[product.id].quantity === i) {
       $option.selected = true
     }
     $option.textContent = i
     $select.appendChild($option)
   }
+  $select.addEventListener('change', function(event){
+    var qty = parseInt(event.target.value, 10)
+    cart[product.id].quantity = qty
+
+    totalPrice(cart)
+    updateCartButton(cart)
+  })
   return $select
 }
 
@@ -288,3 +300,25 @@ function getCartItems(cart, itemList) {
   }
   return cartItems
 }
+
+/*
+function removeItemButton(cart, product) {
+  var $removeButton = document.createElement('button')
+  $removeButton.setAttribute('type', 'button')
+  $removeButton.setAttribute('id', 'remove')
+  $removeButton.classList.add('btn')
+  $removeButton.classList.add('btn-danger')
+  $removeButton.textContent = 'Remove'
+  $removeButton.addEventListener('click', function(event){
+    var id = product.id
+    cart.splice(id, 1)
+    createCart(getCartItems(cart, items))
+    updateCartButton(cart)
+  })
+  return $removeButton
+}
+
+map, filter reduce
+
+function
+*/
