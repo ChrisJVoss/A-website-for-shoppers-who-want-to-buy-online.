@@ -160,7 +160,6 @@ goToCartButton()
 
 function createCart(cartList) {
   var $shoppingCart = document.getElementById('shopping-cart')
-  var $totalPrice = document.getElementById('total-price')
   $shoppingCart.innerHTML=''
   for (var i = 0; i < cartList.length; i++) {
     var currentProduct = cartList[i]
@@ -170,16 +169,17 @@ function createCart(cartList) {
     $shoppingCart.appendChild($product)
   }
   totalPrice(shoppingCart)
-  createGenericButton($totalPrice, buttons, 'checkoutButton')
   createGenericButton($shoppingCart, buttons, 'returnButton')
 }
 
 function totalPrice(cartList) {
+  var $totalPrice = document.getElementById('total-price')
   var total = 0
   for (var i  in cartList) {
       total += (cartList[i].price * cartList[i].quantity)
   }
   document.getElementById('total-price').textContent = 'Total: $' + total.toFixed(2)
+  createGenericButton($totalPrice, buttons, 'checkoutButton')
 }
 
 function createGenericButton(location, buttonList, button) {
