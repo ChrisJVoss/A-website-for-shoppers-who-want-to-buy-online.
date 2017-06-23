@@ -181,7 +181,7 @@ function totalPrice(cartList) {
       total += (cartList[i].price * cartList[i].quantity)
     }
   }
-  document.getElementById('total-price').textContent = 'Total: ' + total.toFixed(2)
+  document.getElementById('total-price').textContent = 'Total: $' + total.toFixed(2)
 }
 
 function createGenericButton(location, buttonList, button) {
