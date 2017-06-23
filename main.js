@@ -142,12 +142,11 @@ function updateCartButton(cartSize) {
   var count = 0
   for (key in cartSize) {
     count += cartSize[key].quantity
-    console.log(typeof cartSize[key].quantity)
   }
   document.getElementById('count').textContent = count
 }
 
-function goToCartButton() {
+function configureCartButton() {
   var $cartButton = document.getElementById('cart-icon')
   $cartButton.addEventListener('click', function(event) {
     var $id = document.getElementById('cart').id
@@ -156,7 +155,7 @@ function goToCartButton() {
   })
 }
 
-goToCartButton()
+configureCartButton()
 
 function createCart(cartList) {
   var $shoppingCart = document.getElementById('shopping-cart')
@@ -209,14 +208,7 @@ function addressForm(creatorList, selector, destination) {
   for(var i = 0; i < creatorList.length; i++) {
     if (creatorList[i].name === selector) {
        chosenOne = creatorList[i]
-       for (var x = 0; x < chosenOne.inputs.length; x++) {
-         /*
-         if (chosenOne.inputs[x] === 'Expiration date:') {
-           var $divShipping = document.createElement('div')
-           var $label = document.createElement('label')
-           var $divSize = document.createElement('div')
-         }
-         */
+       for (var i = 0; i < chosenOne.inputs.length; i++) {
         var $divShipping = document.createElement('div')
         var $label = document.createElement('label')
         var $divSize = document.createElement('div')
@@ -227,7 +219,7 @@ function addressForm(creatorList, selector, destination) {
         $divShipping.classList.add('row')
         $label.classList.add('col-md-2')
         $label.classList.add('col-form-label')
-        $label.textContent = chosenOne.inputs[x]
+        $label.textContent = chosenOne.inputs[i]
         $divSize.classList.add('col-md-8')
         $input.classList.add('form-control')
         $input.setAttribute('type', 'text')
@@ -301,7 +293,6 @@ function getCartItems(cart, itemList) {
   return cartItems
 }
 
-
 function removeItemButton(cart, product) {
   var $removeButton = document.createElement('button')
   $removeButton.setAttribute('type', 'button')
@@ -317,8 +308,3 @@ function removeItemButton(cart, product) {
   })
   return $removeButton
 }
-/*
-map, filter reduce
-
-function
-*/
