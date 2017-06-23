@@ -140,9 +140,10 @@ function addToCartButton(product, itemList) {
 
 function updateCartButton(cartSize) {
   var count = 0
-  console.log(shoppingCart)
   for (var i = 0; i < cartSize.length; i++) {
-    count += cartSize[i].quantity
+    if (cartSize[i] != undefined) {
+      count += cartSize[i].quantity
+    }
   }
   document.getElementById('count').textContent = count
 }
@@ -176,7 +177,9 @@ function createCart(cartList) {
 function totalPrice(cartList) {
   var total = 0
   for (var i = 0; i < cartList.length; i++) {
-    total += (cartList[i].price * cartList[i].quantity)
+    if(cartList[i] != undefined) {
+      total += (cartList[i].price * cartList[i].quantity)
+    }
   }
   document.getElementById('total-price').textContent = 'Total: ' + total.toFixed(2)
 }
@@ -251,7 +254,7 @@ submitButton('step2')
 
 function addSelector(cart, product) {
   var $select = document.createElement('select')
-  $select.setAttribute('id', 'selector')
+  $select.setAttribute('id', 'selector' + product.id)
   for (var i = 1; i < 11; i++) {
     var $option = document.createElement('option')
     $option.setAttribute('value', 'value' + i)
